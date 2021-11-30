@@ -127,6 +127,6 @@ jobs:
       - name: Setup Env Variable
         run: cp storage/ci/.env.example .env
 
-      - name: Run test Workflows
+      - name: Run test
         if: success()
-        run: vendor/bin/codecept run tests/integration/Workflows/
+        run: vendor/bin/codecept run
