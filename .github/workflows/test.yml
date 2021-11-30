@@ -14,20 +14,8 @@ jobs:
       DATA_API_MYSQL_HOST: 127.0.0.1
       DATA_API_MYSQL_USER: root
       DATA_API_MYSQL_PASS: password
-      DATA_API_MYSQL_NAME: kanvas_workflow
-      DATA_API_SOCIAL_MYSQL_HOST: 127.0.0.1
-      DATA_API_SOCIAL_MYSQL_USER: root
-      DATA_API_SOCIAL_MYSQL_PASS: password
-      DATA_API_SOCIAL_MYSQL_NAME: kanvas_workflow
-      DATA_API_WALLET_MYSQL_HOST: 127.0.0.1
-      DATA_API_WALLET_MYSQL_USER: root
-      DATA_API_WALLET_MYSQL_PASS: password
-      DATA_API_WALLET_MYSQL_NAME: kanvas_workflow
+      DATA_API_MYSQL_NAME: kanvas_content
       WORKFLOW_CORE_PATH: ./
-      WORKFLOW_MYSQL_HOST: 127.0.0.1
-      WORKFLOW_MYSQL_NAME: kanvas_workflow
-      WORKFLOW_MYSQL_USER: root
-      WORKFLOW_MYSQL_PASS: password
       DATA_API_MEMCACHED_HOST: 127.0.0.1
       DATA_API_MEMCACHED_PORT: 11211
       DATA_API_MEMCACHED_WEIGHT: 100
@@ -47,7 +35,7 @@ jobs:
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
-          MYSQL_DATABASE: kanvas_workflow
+          MYSQL_DATABASE: kanvas_content
         ports:
           - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -138,15 +126,6 @@ jobs:
 
       - name: Setup Env Variable
         run: cp storage/ci/.env.example .env
-          
-      - name: Setup Phinx Workflow
-        run: cp storage/ci/phinx.example phinx-workflow.php
-      
-      - name: Phinx migrate workflows
-        run: vendor/bin/phinx migrate -c phinx-workflow.php
-          
-      - name: Phinx seeder Workflows
-        run: vendor/bin/phinx seed:run -c phinx-workflow.php
 
       - name: Run test Workflows
         if: success()
